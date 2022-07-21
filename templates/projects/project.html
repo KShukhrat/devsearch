@@ -1,0 +1,22 @@
+{% include 'main.html' %}
+    {% block content %}
+    <p>you are on {{ page }} page</p>
+    {% if number > 10 %}
+        <p>kiritilgan raqam 10 dan katta</p>
+    {% elif number == 10 %}
+        <p>kiritilgan raqam 10 ga teng</p>
+    {% else %}
+        <p>kiritilgan raqam 10 dan kichkina</p>
+    {% endif %}
+        <hr>
+
+        <h1>Projects</h1>
+        <ul>
+            {% for i in projectlist %}
+                <li>Title:<a href='{% url "project" i.id %}'>{{ i.title }}</a>-----Description:{{ i.description }}</li>
+            {% endfor %}
+        </ul>
+
+    {% endblock content %}
+<p>Footer</p>
+
