@@ -1,35 +1,24 @@
-from django.shortcuts import render
-
-projectlist = [
-    {
-        'id': '1',
-        'title': 'Ecommerce Website',
-        'description': 'Fully functional ecommerce website',
-    },
-    {
-        'id': '2',
-        'title': 'Portfolio Website',
-        'description': 'This was a project where I built out my portfol',
-
-    },
-    {
-        'id': '3',
-        'title': 'Social Network',
-        'description': 'Awesome open source project I am still working',
-    },
-]
-
+from django.shortcuts import render, redirect
+from .models import Project, Tag
+from .forms import ProjectForm
 
 def projects(request):
-    page = 'projects'
-    num = 10
-    context = {'page': page, 'number': num, 'projectlist': projectlist}
+    projects = Project.objects.all()
+  
+    context = {'projects': projects}
     return render(request, 'projects/project.html', context)
 
 
 def project(request, pk):
-    projectObj = None
-    for i in projectlist:
-        if i['id'] == pk:
-            projectObj = i
-    return render(request, 'projects/single project.html', {'project': projectObj})
+    projectObj = Project.objects.get(id=pk)
+    return render(request, 'projects/single project.html', {'project': projectObj,})
+
+def CreateProject(request):
+    form = ProjectForm()
+    if request.method == "POST":
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('projects')
+    context = {'form': form}
+    return render(request,'projects/project_form.html',context)
