@@ -5,17 +5,15 @@ from django.contrib.auth.models import User
 
 # @receiver(post_save, sender=Profile)
 def createProfile(sender, instance, created, **kwargs):
-    print('profile signal triggered')
     if created:
         user = instance
         profile = Profile.objects.create(
             user=user,
             username=user.name,
             email=user.email,
-            name=user.first_name
+            name=user.first_name,
         )
 def deleteuser(sender, instance, **kwargs):
-    print('Deleting user...')
     user = instance.user
     user.delete()
 
